@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.4.06 · Modal “¿Cancelar?” — INMEDIC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/estilos.css">
+</head>
+<body data-codigo="1.4.06">
+
+<div id="barra"></div>
+
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">4</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="asistente">
+    <div class="asistente__form">
+      <div class="encabezado-paso">
+        <h2>Registro de Sucursales</h2>
+        <p>Ahora continuaremos con el registro de tu empresa.</p>
+      </div>
+      <div class="grupo">
+        <div class="grupo__titulo">Sucursales registradas · 2</div>
+        <table class="tabla">
+          <thead><tr><th>Nombre</th><th>Dirección</th><th>Ciudad</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><b>Matriz</b></td><td>Av. Vallarta 1234, Int. 5 · Col. Americana</td><td>Guadalajara, Jalisco</td><td><span class="etiqueta etiqueta--principal">Cede</span></td></tr>
+            <tr><td><b>Sucursal Centro</b></td><td>Calle Morelos 87 · Col. Centro</td><td>Guadalajara, Jalisco</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <aside class="asistente__ayuda ayuda">
+      <div class="ayuda__ilustracion" style="background:var(--rojo)">⚠</div>
+      <div>
+        <h3>Salida abandonando</h3>
+        <p>El usuario se arrepiente. Se le avisa que va a perder lo capturado antes de dejarlo salir.</p>
+      </div>
+    </aside>
+  </div>
+
+  <div class="capa">
+    <div class="modal">
+      <div class="modal__icono modal__icono--peligro">!</div>
+      <h3>¿Estás seguro de que quieres continuar?</h3>
+      <p>Al cancelar se perderán las sucursales que hayas creado. Podrás volver a crear tus sucursales en otra ocasión.</p>
+      <div class="modal__botones">
+        <a class="btn btn--fantasma" href="1.4.02-sucursales-agregar.html">Volver</a>
+        <a class="btn btn--peligro" href="1.5.01-finalizacion.html">Cancelar</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Para confirmar:</b> si el usuario cancela aquí, ¿se pierden sólo las sucursales o también la Cede del paso 3?
+  Y después de cancelar, ¿a dónde lo mandamos: al sistema o lo dejamos fuera?
+</p>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

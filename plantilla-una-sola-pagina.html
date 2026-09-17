@@ -1,0 +1,151 @@
+<title>Prototipo INMEDIC</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/*CSS*/
+
+/* --- Sólo para la versión de un solo archivo --- */
+.pantalla[hidden],
+#barra[hidden] { display: none !important; }
+</style>
+
+<div id="barra" hidden></div>
+
+<section class="pantalla" data-codigo="indice">
+
+  <header class="portada">
+    <div class="marca">INMEDIC</div>
+    <h1>Prototipo navegable</h1>
+    <p>Las pantallas del módulo de Registro, para recorrerlas en el navegador como si fueras el usuario.
+       Cada pantalla tiene su propia dirección: se puede compartir el enlace de una sola.</p>
+  </header>
+
+  <main class="contenido">
+
+    <section class="tarjeta">
+      <h2>Cómo se usa</h2>
+      <p>Está pensado para revisarlo de corrido.</p>
+      <div class="leyenda">
+        <div class="leyenda__item">
+          <b>Se navega solo</b>
+          Los botones de las pantallas están conectados. Pica “Iniciar Sesión”, “Continuar”, “Editar” y vas avanzando.
+        </div>
+        <div class="leyenda__item">
+          <b>Barra de arriba</b>
+          En cada pantalla ves el código, el nombre y en cuál vas. Con <b>Anterior</b> y <b>Siguiente</b> recorres las 12 en orden.
+        </div>
+        <div class="leyenda__item">
+          <b>Flechas del teclado</b>
+          ← y → también avanzan y retroceden, para ir rápido en una junta.
+        </div>
+      </div>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Módulo 01 · Registro</h2>
+      <p>Lo que hace el usuario la primera vez que entra: se identifica, dice quién es ante Hacienda, registra su sede y agrega sus sucursales.</p>
+      <div class="lista-pantallas">
+        <!--INDICE-->
+      </div>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Lo que hay que decidir</h2>
+      <p>Salió al programar las pantallas. Cada punto está anotado también al pie de la pantalla donde aplica.</p>
+      <div class="lista-pantallas">
+        <!--DECISIONES-->
+      </div>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Qué sigue</h2>
+      <p>Éste es el primer módulo, el que se acordó revisar primero.</p>
+      <div class="aviso">
+        Faltan por programar los módulos <b>02 Usuarios</b>, <b>03 Compras y Almacén</b>, <b>04 Almacén</b>,
+        <b>05 Catálogos</b>, <b>06 Archivo Digital</b>, <b>07 Home y Remisiones</b> y <b>08 Perfil</b>.
+        Se van haciendo conforme se vayan cerrando en la revisión, para no programar dos veces lo mismo.
+      </div>
+    </section>
+
+  </main>
+</section>
+
+<!--PANTALLAS-->
+
+<script>
+(function () {
+  "use strict";
+
+  var PANTALLAS = [
+    /*DATOS*/
+  ];
+
+  var barra = document.getElementById("barra");
+  var secciones = Array.prototype.slice.call(document.querySelectorAll(".pantalla"));
+
+  function indiceDe(cod) {
+    for (var i = 0; i < PANTALLAS.length; i++) {
+      if (PANTALLAS[i].cod === cod) return i;
+    }
+    return -1;
+  }
+
+  function pintarBarra(i) {
+    var actual = PANTALLAS[i];
+    var previa = PANTALLAS[i - 1];
+    var sig = PANTALLAS[i + 1];
+    barra.hidden = false;
+    barra.className = "barra";
+    barra.innerHTML =
+      '<a class="barra__marca" href="#indice">INMEDIC &middot; prototipo</a>' +
+      '<span class="barra__codigo">' + actual.cod + "</span>" +
+      '<span class="barra__titulo">' + actual.nom + "</span>" +
+      '<span class="barra__paso">' + (i + 1) + " de " + PANTALLAS.length + "</span>" +
+      '<nav class="barra__nav">' +
+        '<a class="barra__btn" ' + (previa ? 'href="#' + previa.cod + '"' : 'aria-disabled="true"') + ">&larr; Anterior</a>" +
+        '<a class="barra__btn" ' + (sig ? 'href="#' + sig.cod + '"' : 'aria-disabled="true"') + ">Siguiente &rarr;</a>" +
+        '<a class="barra__btn" href="#indice">Índice</a>' +
+      "</nav>";
+  }
+
+  function mostrar(cod) {
+    var i = indiceDe(cod);
+    var destino = i === -1 ? "indice" : cod;
+
+    for (var s = 0; s < secciones.length; s++) {
+      secciones[s].hidden = secciones[s].getAttribute("data-codigo") !== destino;
+    }
+
+    if (i === -1) {
+      barra.hidden = true;
+      barra.innerHTML = "";
+    } else {
+      pintarBarra(i);
+    }
+
+    window.scrollTo(0, 0);
+  }
+
+  function actual() {
+    return (location.hash || "#indice").slice(1);
+  }
+
+  window.addEventListener("hashchange", function () { mostrar(actual()); });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.target && e.target.matches && e.target.matches("input, select, textarea")) return;
+    var i = indiceDe(actual());
+    if (i === -1) return;
+    if (e.key === "ArrowLeft" && PANTALLAS[i - 1]) location.hash = "#" + PANTALLAS[i - 1].cod;
+    if (e.key === "ArrowRight" && PANTALLAS[i + 1]) location.hash = "#" + PANTALLAS[i + 1].cod;
+  });
+
+  // Los campos son de muestra: no guardan nada ni recargan la página.
+  document.addEventListener("submit", function (e) { e.preventDefault(); });
+
+  mostrar(actual());
+})();
+</script>

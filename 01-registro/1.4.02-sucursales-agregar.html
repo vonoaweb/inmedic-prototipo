@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.4.02 · Sucursales — agregar otra — INMEDIC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/estilos.css">
+</head>
+<body data-codigo="1.4.02">
+
+<div id="barra"></div>
+
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">4</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="asistente">
+    <form class="asistente__form">
+
+      <div class="encabezado-paso">
+        <h2>Registro de Sucursales</h2>
+        <p>Ya tienes sucursales capturadas. Puedes seguir agregando las que falten, editar las que ya están, o terminar el registro.</p>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Nueva sucursal</div>
+        <div class="rejilla dos">
+          <div class="campo">
+            <label for="nombre">Nombre de la Sucursal <span class="req">*</span></label>
+            <input id="nombre" placeholder="Sucursal Zapopan">
+          </div>
+          <div class="campo">
+            <label for="tel">Teléfono de contacto</label>
+            <input id="tel" placeholder="33 0000 0000">
+          </div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Ubicación</div>
+        <div class="rejilla cuatro">
+          <div class="campo col-2">
+            <label for="calle">Calle <span class="req">*</span></label>
+            <input id="calle" placeholder="Calle">
+          </div>
+          <div class="campo">
+            <label for="ext">Ext. <span class="req">*</span></label>
+            <input id="ext" placeholder="000">
+          </div>
+          <div class="campo">
+            <label for="int">Int.</label>
+            <input id="int" placeholder="000">
+          </div>
+          <div class="campo col-2">
+            <label for="colonia">Colonia <span class="req">*</span></label>
+            <input id="colonia" placeholder="Colonia">
+          </div>
+          <div class="campo">
+            <label for="cp">C.P. <span class="req">*</span></label>
+            <input id="cp" placeholder="00000" maxlength="5">
+          </div>
+          <div class="campo">
+            <label for="estado">Estado <span class="req">*</span></label>
+            <select id="estado"><option>Jalisco</option><option>Ciudad de México</option><option>Nuevo León</option></select>
+          </div>
+          <div class="campo col-2">
+            <label for="ciudad">Ciudad <span class="req">*</span></label>
+            <input id="ciudad" placeholder="Ciudad">
+          </div>
+        </div>
+        <div style="margin-top:18px">
+          <button type="button" class="btn btn--fantasma">+ Agregar sucursal</button>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Sucursales registradas · 2</div>
+        <table class="tabla">
+          <thead>
+            <tr><th>Nombre</th><th>Dirección</th><th>Ciudad</th><th></th><th class="acciones">Acciones</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Matriz</b></td>
+              <td>Av. Vallarta 1234, Int. 5 · Col. Americana · C.P. 44160</td>
+              <td>Guadalajara, Jalisco</td>
+              <td><span class="etiqueta etiqueta--principal">Cede</span></td>
+              <td class="acciones">
+                <a class="accion" href="1.4.03-sucursales-editar.html">Editar</a>
+                <button type="button" class="accion es-peligro">Eliminar</button>
+              </td>
+            </tr>
+            <tr>
+              <td><b>Sucursal Centro</b></td>
+              <td>Calle Morelos 87 · Col. Centro · C.P. 44100</td>
+              <td>Guadalajara, Jalisco</td>
+              <td></td>
+              <td class="acciones">
+                <a class="accion" href="1.4.03-sucursales-editar.html">Editar</a>
+                <button type="button" class="accion es-peligro">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="botones">
+        <a class="btn btn--texto" href="1.4.06-modal-cancelar.html">Cancelar</a>
+        <div class="botones__der">
+          <a class="btn btn--principal" href="1.4.05-modal-terminar.html">Terminar</a>
+        </div>
+      </div>
+
+    </form>
+
+    <aside class="asistente__ayuda ayuda">
+      <div class="ayuda__ilustracion">🏬</div>
+      <div>
+        <h3>Con sucursales ya creadas</h3>
+        <p>La misma pantalla, pero con la tabla llena. Desde la tabla se edita o se elimina cada sucursal.</p>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>La <b>Cede</b> que capturaste en el paso 3 aparece en la tabla marcada con su etiqueta. No se puede eliminar.</span>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>Prueba el botón <b>Editar</b> de cualquier fila: lleva a la pantalla 1.4.03.</span>
+      </div>
+    </aside>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Para confirmar:</b> ¿la Cede debe aparecer dentro de la tabla de sucursales, o se muestra aparte?
+  Aquí la puse dentro, marcada con etiqueta, para que se vea completa la operación.
+</p>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

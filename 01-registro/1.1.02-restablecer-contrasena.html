@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.1.02 · Restablecer contraseña — INMEDIC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/estilos.css">
+</head>
+<body data-codigo="1.1.02">
+
+<div id="barra"></div>
+
+<div class="lienzo">
+  <div class="login">
+
+    <div class="login__arte">
+      <div class="login__marca">INMEDIC</div>
+      <div>
+        <h1>Recupera tu<br>acceso</h1>
+        <p>Te enviamos un enlace al correo con el que estás registrado. Desde aquí defines una contraseña nueva.</p>
+      </div>
+      <div class="insignias">
+        <span class="insignia">Seguro · Datos protegidos</span>
+      </div>
+    </div>
+
+    <div class="login__panel">
+      <form class="login__caja">
+        <h2>Restablecer contraseña</h2>
+        <p>Has ingresado con el correo <b>correo_electronico@ejemplo.com</b></p>
+
+        <div class="campo">
+          <label for="nueva">Escribe tu nueva contraseña</label>
+          <input id="nueva" type="password" placeholder="**********">
+        </div>
+
+        <div class="campo">
+          <label for="repite">Repite tu contraseña</label>
+          <input id="repite" type="password" placeholder="**********">
+        </div>
+
+        <a class="btn btn--principal btn--ancho" href="1.2.01-datos-fiscales-moral.html">Guardar y continuar</a>
+
+        <div class="login__pie">
+          <p><a href="1.1.01-log-in.html">Volver al inicio de sesión</a></p>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<p class="nota-pantalla">
+  <b>Falta definir:</b> qué pasa si las dos contraseñas no coinciden, y cuántos caracteres se van a pedir como mínimo.
+</p>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

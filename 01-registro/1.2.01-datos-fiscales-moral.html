@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.2.01 · Datos fiscales — Persona Moral — INMEDIC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/estilos.css">
+</head>
+<body data-codigo="1.2.01">
+
+<div id="barra"></div>
+
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">2</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">3</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">4</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="asistente">
+    <form class="asistente__form">
+
+      <div class="encabezado-paso">
+        <h2>Registro de Empresa</h2>
+        <p>Ahora continuaremos con el registro fiscal de tu empresa. Elige con qué régimen está dada de alta y llena los datos que aparecen en tu constancia de situación fiscal.</p>
+      </div>
+
+      <div class="pestanas">
+        <a class="es-activa" href="1.2.01-datos-fiscales-moral.html">Persona Moral</a>
+        <a href="1.2.02-datos-fiscales-fisica.html">Persona Física</a>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Datos de la empresa</div>
+        <div class="rejilla dos">
+          <div class="campo">
+            <label for="comercial">Nombre comercial <span class="req">*</span></label>
+            <input id="comercial" placeholder="Nombre comercial de la empresa">
+          </div>
+          <div class="campo">
+            <label for="razon">Razón Social <span class="req">*</span></label>
+            <input id="razon" placeholder="Razón Social de la empresa">
+          </div>
+          <div class="campo">
+            <label for="rfc">RFC <span class="req">*</span></label>
+            <input id="rfc" placeholder="RFC de tu empresa" maxlength="12">
+          </div>
+          <div class="campo">
+            <label for="regimen">Régimen fiscal <span class="req">*</span></label>
+            <select id="regimen">
+              <option>Selecciona una opción</option>
+              <option>601 · General de Ley Personas Morales</option>
+              <option>603 · Personas Morales con Fines no Lucrativos</option>
+              <option>620 · Sociedades Cooperativas de Producción</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Domicilio Fiscal</div>
+        <div class="rejilla cuatro">
+          <div class="campo col-2">
+            <label for="calle">Calle <span class="req">*</span></label>
+            <input id="calle" placeholder="Calle">
+          </div>
+          <div class="campo">
+            <label for="ext">Ext. <span class="req">*</span></label>
+            <input id="ext" placeholder="000">
+          </div>
+          <div class="campo">
+            <label for="int">Int.</label>
+            <input id="int" placeholder="000">
+          </div>
+          <div class="campo col-2">
+            <label for="colonia">Colonia <span class="req">*</span></label>
+            <input id="colonia" placeholder="Colonia">
+          </div>
+          <div class="campo">
+            <label for="cp">C.P. <span class="req">*</span></label>
+            <input id="cp" placeholder="00000" maxlength="5">
+          </div>
+          <div class="campo">
+            <label for="estado">Estado <span class="req">*</span></label>
+            <select id="estado"><option>Jalisco</option><option>Ciudad de México</option><option>Nuevo León</option></select>
+          </div>
+          <div class="campo col-2">
+            <label for="ciudad">Ciudad <span class="req">*</span></label>
+            <input id="ciudad" placeholder="Ciudad">
+          </div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Documentos</div>
+        <div class="rejilla dos">
+          <div class="subir">
+            <b>Subir Logotipo</b>
+            PNG o SVG, fondo transparente
+          </div>
+          <div class="subir">
+            <b>Constancia de situación fiscal</b>
+            PDF descargado del SAT
+          </div>
+        </div>
+      </div>
+
+      <div class="botones">
+        <a class="btn btn--texto" href="1.1.01-log-in.html">← Regresar</a>
+        <div class="botones__der">
+          <a class="btn btn--principal" href="1.3.01-registro-de-cede.html">Continuar</a>
+        </div>
+      </div>
+
+    </form>
+
+    <aside class="asistente__ayuda ayuda">
+      <div class="ayuda__ilustracion">🏢</div>
+      <div>
+        <h3>¿Por qué te pedimos esto?</h3>
+        <p>Con estos datos el sistema arma automáticamente las remisiones y las facturas. Si algo está mal escrito aquí, sale mal en todos los documentos.</p>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>Ten a la mano tu <b>constancia de situación fiscal</b>. Todos los campos de esta pantalla vienen en ese documento.</span>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>Si te equivocas, más adelante lo puedes corregir en <b>Perfil de la empresa</b> (módulo 08).</span>
+      </div>
+    </aside>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Aquí el camino se parte en dos.</b> Las pestañas de arriba cambian los campos: Persona Moral pide razón social y logotipo;
+  Persona Física pide nombre y apellidos. Pruébalas, están conectadas.
+</p>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

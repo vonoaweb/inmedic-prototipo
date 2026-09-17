@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.4.05 · Modal “¿Terminar?” — INMEDIC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/estilos.css">
+</head>
+<body data-codigo="1.4.05">
+
+<div id="barra"></div>
+
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">4</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="asistente">
+    <div class="asistente__form">
+      <div class="encabezado-paso">
+        <h2>Registro de Sucursales</h2>
+        <p>Ahora continuaremos con el registro de tu empresa.</p>
+      </div>
+      <div class="grupo">
+        <div class="grupo__titulo">Sucursales registradas · 2</div>
+        <table class="tabla">
+          <thead><tr><th>Nombre</th><th>Dirección</th><th>Ciudad</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><b>Matriz</b></td><td>Av. Vallarta 1234, Int. 5 · Col. Americana</td><td>Guadalajara, Jalisco</td><td><span class="etiqueta etiqueta--principal">Cede</span></td></tr>
+            <tr><td><b>Sucursal Centro</b></td><td>Calle Morelos 87 · Col. Centro</td><td>Guadalajara, Jalisco</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <aside class="asistente__ayuda ayuda">
+      <div class="ayuda__ilustracion">🏬</div>
+      <div>
+        <h3>Salida normal</h3>
+        <p>Este es el camino bueno: el usuario ya capturó lo que quería y cierra el registro.</p>
+      </div>
+    </aside>
+  </div>
+
+  <div class="capa">
+    <div class="modal">
+      <div class="modal__icono modal__icono--aviso">?</div>
+      <h3>¿Estás seguro de querer terminar?</h3>
+      <p>Las sucursales que hayas creado se guardarán.</p>
+      <div class="modal__botones">
+        <a class="btn btn--fantasma" href="1.4.02-sucursales-agregar.html">Volver</a>
+        <a class="btn btn--principal" href="1.5.01-finalizacion.html">Terminar</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Ojo con la diferencia:</b> este modal <b>guarda</b> (1.4.05) y el otro <b>borra</b> (1.4.06).
+  En el Figma los dos se llamaban igual, “Modal Cancelar”, y por eso se confundían. Ya quedaron separados.
+</p>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

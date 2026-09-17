@@ -1,0 +1,1999 @@
+<title>Prototipo INMEDIC</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ===========================================================
+   INMEDIC — Prototipo web
+   Tokens tomados del archivo de Figma "INMEDIC v2 (copia)"
+   =========================================================== */
+
+:root {
+  /* Marca */
+  --amarillo:        #fdc034;
+  --amarillo-oscuro: #e0a41c;
+  --amarillo-suave:  #fff6e0;
+  --teal:            #04404d;
+  --teal-900:        #001c26;
+  --teal-claro:      #a6bfc6;
+  --verde:           #1ba69c;
+
+  /* Grises */
+  --blanco:   #ffffff;
+  --gris-50:  #f8f9fa;
+  --gris-100: #f1f3f5;
+  --gris-200: #e9ecef;
+  --gris-300: #adb5bd;
+  --gris-500: #868e96;
+  --gris-600: #495057;
+  --gris-900: #1e1e1e;
+
+  /* Estado */
+  --rojo:       #fa5252;
+  --rojo-suave: #fff5f5;
+
+  /* Forma */
+  --r:      4px;
+  --r-card: 8px;
+  --r-pill: 64px;
+
+  --sombra:    0 1px 3px rgba(0, 28, 38, .08), 0 1px 2px rgba(0, 28, 38, .04);
+  --sombra-md: 0 8px 24px rgba(0, 28, 38, .12);
+  --sombra-lg: 0 24px 64px rgba(0, 28, 38, .22);
+
+  --barra-alto: 52px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: Montserrat, "Segoe UI", system-ui, sans-serif;
+  font-size: 14px;
+  color: var(--gris-900);
+  background: var(--gris-100);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { margin: 0; font-weight: 600; line-height: 1.25; }
+p  { margin: 0; line-height: 1.6; }
+a  { color: inherit; }
+
+/* ===========================================================
+   Barra de revisión (no es parte del producto, es del prototipo)
+   =========================================================== */
+
+.barra {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 100;
+  height: var(--barra-alto);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  background: var(--teal-900);
+  color: var(--blanco);
+  font-size: 12px;
+}
+
+.barra__marca {
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--amarillo);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.barra__codigo {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  background: var(--amarillo);
+  color: var(--teal-900);
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+
+.barra__titulo {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: .92;
+}
+
+.barra__nav { display: flex; align-items: center; gap: 8px; }
+
+.barra__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(255, 255, 255, .28);
+  background: transparent;
+  color: var(--blanco);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.barra__btn:hover { background: rgba(255, 255, 255, .12); border-color: rgba(255, 255, 255, .5); }
+.barra__btn[aria-disabled="true"] { opacity: .3; pointer-events: none; }
+
+.barra__paso { opacity: .55; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* ===========================================================
+   Lienzo de pantalla
+   =========================================================== */
+
+.lienzo {
+  max-width: 1440px;
+  margin: 24px auto;
+  background: var(--blanco);
+  border-radius: var(--r-card);
+  box-shadow: var(--sombra-md);
+  overflow: hidden;
+  position: relative;
+}
+
+.nota-pantalla {
+  max-width: 1440px;
+  margin: 0 auto 32px;
+  padding: 14px 18px;
+  background: var(--amarillo-suave);
+  border-left: 3px solid var(--amarillo);
+  border-radius: var(--r);
+  font-size: 13px;
+  color: var(--gris-600);
+}
+.nota-pantalla b { color: var(--gris-900); }
+
+/* ===========================================================
+   Barra de progreso del registro (5 pasos)
+   =========================================================== */
+
+.progreso {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 26px 56px 22px;
+  border-bottom: 1px solid var(--gris-200);
+}
+
+.progreso__paso {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.progreso__bolita {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 700;
+  background: var(--gris-200);
+  color: var(--gris-500);
+  flex: none;
+}
+.progreso__texto { font-size: 12px; font-weight: 500; color: var(--gris-500); }
+
+.progreso__linea {
+  flex: 1;
+  height: 2px;
+  background: var(--gris-200);
+  margin: 0 14px;
+  min-width: 24px;
+}
+
+.progreso__paso.es-hecho .progreso__bolita { background: var(--verde); color: var(--blanco); }
+.progreso__paso.es-hecho .progreso__texto  { color: var(--gris-600); }
+.progreso__paso.es-hecho + .progreso__linea { background: var(--verde); }
+
+.progreso__paso.es-actual .progreso__bolita { background: var(--amarillo); color: var(--teal-900); box-shadow: 0 0 0 4px var(--amarillo-suave); }
+.progreso__paso.es-actual .progreso__texto  { color: var(--gris-900); font-weight: 600; }
+
+/* ===========================================================
+   Cuerpo del asistente: formulario + panel de ayuda
+   =========================================================== */
+
+.asistente {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  min-height: 620px;
+}
+
+/* Sin esto, un campo ancho estira la columna del grid y el contenido
+   se sale de la tarjeta en pantallas chicas. */
+.asistente > *,
+.rejilla > *,
+.campo { min-width: 0; }
+.campo input,
+.campo select { width: 100%; }
+
+.asistente__form { padding: 36px 56px 40px; }
+.asistente__ayuda {
+  padding: 40px 36px;
+  background: var(--gris-50);
+  border-left: 1px solid var(--gris-200);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.encabezado-paso { margin-bottom: 28px; }
+.encabezado-paso h2 { font-size: 22px; }
+.encabezado-paso p  { margin-top: 8px; font-size: 13px; color: var(--gris-500); max-width: 62ch; }
+
+/* Pestañas Persona Moral / Persona Física */
+.pestanas {
+  display: inline-flex;
+  padding: 4px;
+  background: var(--gris-100);
+  border-radius: var(--r-pill);
+  margin-bottom: 30px;
+}
+.pestanas a {
+  padding: 9px 22px;
+  border-radius: var(--r-pill);
+  font-size: 13px; font-weight: 600;
+  color: var(--gris-500);
+  text-decoration: none;
+  transition: background .15s, color .15s;
+}
+.pestanas a:hover { color: var(--gris-900); }
+.pestanas a.es-activa { background: var(--blanco); color: var(--teal-900); box-shadow: var(--sombra); }
+
+/* ===========================================================
+   Campos
+   =========================================================== */
+
+.grupo { margin-bottom: 26px; }
+.grupo__titulo {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--gris-500);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--gris-200);
+}
+
+.rejilla { display: grid; gap: 16px 20px; }
+.rejilla.dos    { grid-template-columns: repeat(2, 1fr); }
+.rejilla.tres   { grid-template-columns: repeat(3, 1fr); }
+.rejilla.cuatro { grid-template-columns: repeat(4, 1fr); }
+.col-2 { grid-column: span 2; }
+
+.campo { display: flex; flex-direction: column; gap: 6px; }
+.campo label { font-size: 12px; font-weight: 500; color: var(--gris-600); }
+.campo label .req { color: var(--rojo); }
+
+.campo input,
+.campo select {
+  height: 40px;
+  padding: 0 12px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--gris-900);
+  background: var(--blanco);
+  border: 1px solid var(--gris-300);
+  border-radius: var(--r);
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.campo input::placeholder { color: var(--gris-300); }
+.campo input:focus,
+.campo select:focus { border-color: var(--amarillo); box-shadow: 0 0 0 3px var(--amarillo-suave); }
+
+.campo.es-error input { border-color: var(--rojo); background: var(--rojo-suave); }
+.campo__error {
+  font-size: 11px; font-weight: 600; color: var(--rojo);
+  display: flex; align-items: center; gap: 5px;
+}
+
+.subir {
+  border: 1.5px dashed var(--gris-300);
+  border-radius: var(--r);
+  padding: 22px;
+  text-align: center;
+  color: var(--gris-500);
+  font-size: 12px;
+  background: var(--gris-50);
+}
+.subir b { display: block; color: var(--gris-600); margin-bottom: 4px; font-size: 13px; }
+
+.archivo-cargado {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--gris-200);
+  border-radius: var(--r);
+  background: var(--gris-50);
+  font-size: 12px;
+}
+.archivo-cargado .icono {
+  width: 28px; height: 28px; flex: none;
+  display: grid; place-items: center;
+  background: var(--verde); color: var(--blanco);
+  border-radius: var(--r);
+  font-size: 13px;
+}
+.archivo-cargado .nombre { flex: 1; font-weight: 600; color: var(--gris-600); }
+.archivo-cargado .quitar { color: var(--gris-300); cursor: pointer; }
+
+/* ===========================================================
+   Botones
+   =========================================================== */
+
+.botones {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 34px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gris-200);
+}
+.botones__der { display: flex; gap: 12px; margin-left: auto; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 26px;
+  border: 1px solid transparent;
+  border-radius: var(--r);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.btn--principal { background: var(--amarillo); color: var(--teal-900); }
+.btn--principal:hover { background: var(--amarillo-oscuro); }
+.btn--fantasma { background: transparent; color: var(--gris-600); border-color: var(--gris-300); }
+.btn--fantasma:hover { border-color: var(--gris-600); color: var(--gris-900); }
+.btn--texto { background: transparent; color: var(--gris-500); padding: 0 8px; }
+.btn--texto:hover { color: var(--gris-900); }
+.btn--peligro { background: var(--rojo); color: var(--blanco); }
+.btn--peligro:hover { background: #e03131; }
+.btn--ancho { width: 100%; }
+
+/* ===========================================================
+   Panel de ayuda lateral
+   =========================================================== */
+
+.ayuda__ilustracion {
+  height: 180px;
+  border-radius: var(--r-card);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(253, 192, 52, .35), transparent 60%),
+    radial-gradient(circle at 75% 70%, rgba(27, 166, 156, .28), transparent 60%),
+    var(--teal);
+  display: grid;
+  place-items: center;
+  color: var(--amarillo);
+  font-size: 44px;
+}
+.ayuda h3 { font-size: 15px; }
+.ayuda p  { font-size: 13px; color: var(--gris-600); margin-top: 8px; }
+
+.tip {
+  display: flex; gap: 10px;
+  padding: 14px;
+  background: var(--blanco);
+  border: 1px solid var(--gris-200);
+  border-radius: var(--r);
+  font-size: 12px;
+  color: var(--gris-600);
+  line-height: 1.55;
+}
+.tip .icono { color: var(--amarillo-oscuro); font-size: 14px; flex: none; }
+
+/* ===========================================================
+   Tabla de sucursales
+   =========================================================== */
+
+.tabla { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tabla th {
+  text-align: left;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--gris-500);
+  padding: 10px 14px;
+  background: var(--gris-50);
+  border-bottom: 1px solid var(--gris-200);
+}
+.tabla td { padding: 14px; border-bottom: 1px solid var(--gris-200); color: var(--gris-600); }
+.tabla tr:hover td { background: var(--gris-50); }
+.tabla .acciones { text-align: right; white-space: nowrap; }
+.tabla .accion {
+  border: none; background: none; cursor: pointer;
+  color: var(--gris-500); font-size: 12px; font-weight: 600;
+  padding: 4px 8px; border-radius: var(--r);
+}
+.tabla .accion:hover { background: var(--gris-100); color: var(--gris-900); }
+.tabla .accion.es-peligro:hover { background: var(--rojo-suave); color: var(--rojo); }
+
+.vacio {
+  padding: 48px 24px;
+  text-align: center;
+  border: 1.5px dashed var(--gris-300);
+  border-radius: var(--r-card);
+  background: var(--gris-50);
+}
+.vacio .icono { font-size: 34px; }
+.vacio h4 { margin: 12px 0 6px; font-size: 15px; color: var(--gris-600); }
+.vacio p  { font-size: 13px; color: var(--gris-500); }
+
+.etiqueta {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  font-size: 11px; font-weight: 600;
+}
+.etiqueta--principal { background: var(--amarillo-suave); color: var(--amarillo-oscuro); }
+
+/* ===========================================================
+   Modales
+   =========================================================== */
+
+.capa {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 28, 38, .55);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  z-index: 20;
+}
+
+.modal {
+  width: 100%;
+  max-width: 440px;
+  background: var(--blanco);
+  border-radius: var(--r-card);
+  box-shadow: var(--sombra-lg);
+  padding: 32px 30px 26px;
+  text-align: center;
+}
+.modal__icono {
+  width: 58px; height: 58px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 26px;
+}
+.modal__icono--aviso   { background: var(--amarillo-suave); color: var(--amarillo-oscuro); }
+.modal__icono--peligro { background: var(--rojo-suave); color: var(--rojo); }
+.modal h3 { font-size: 17px; }
+.modal p  { margin-top: 10px; font-size: 13px; color: var(--gris-500); }
+.modal__botones { display: flex; gap: 12px; margin-top: 26px; }
+.modal__botones .btn { flex: 1; }
+
+/* ===========================================================
+   Log in
+   =========================================================== */
+
+.login { display: grid; grid-template-columns: 1fr 1fr; min-height: 720px; }
+
+.login__arte {
+  position: relative;
+  padding: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--blanco);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(253, 192, 52, .28), transparent 55%),
+    radial-gradient(circle at 80% 80%, rgba(27, 166, 156, .3), transparent 55%),
+    var(--teal-900);
+}
+.login__marca { font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--amarillo); }
+.login__arte h1 { font-size: 40px; line-height: 1.15; margin-bottom: 14px; }
+.login__arte p  { font-size: 14px; color: var(--teal-claro); max-width: 42ch; }
+
+.insignias { display: flex; gap: 10px; flex-wrap: wrap; }
+.insignia {
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: var(--r-pill);
+  font-size: 12px; font-weight: 600;
+  color: var(--blanco);
+  background: rgba(255, 255, 255, .06);
+}
+
+.login__panel { display: grid; place-items: center; padding: 56px; }
+.login__caja { width: 100%; max-width: 380px; }
+.login__caja h2 { font-size: 24px; margin-bottom: 8px; }
+.login__caja > p { font-size: 13px; color: var(--gris-500); margin-bottom: 30px; }
+.login__caja .campo { margin-bottom: 18px; }
+.login__pie { margin-top: 24px; text-align: center; font-size: 12px; color: var(--gris-500); }
+.login__pie a { color: var(--gris-600); font-weight: 600; text-decoration: none; }
+.login__pie a:hover { color: var(--amarillo-oscuro); }
+
+/* ===========================================================
+   Finalización
+   =========================================================== */
+
+.final {
+  padding: 72px 56px;
+  text-align: center;
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  min-height: 620px;
+}
+.final__palomita {
+  width: 86px; height: 86px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--verde);
+  color: var(--blanco);
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+.final h2 { font-size: 28px; }
+.final > p { font-size: 14px; color: var(--gris-500); max-width: 52ch; }
+
+.resumen {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 34px 0 30px;
+  width: 100%;
+  max-width: 760px;
+}
+.resumen__item {
+  padding: 20px 18px;
+  border: 1px solid var(--gris-200);
+  border-radius: var(--r-card);
+  background: var(--gris-50);
+  text-align: left;
+}
+.resumen__item .etiq { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gris-500); }
+.resumen__item .valor { font-size: 15px; font-weight: 600; margin-top: 6px; color: var(--gris-900); }
+
+/* ===========================================================
+   Índice del prototipo
+   =========================================================== */
+
+.portada {
+  background: var(--teal-900);
+  color: var(--blanco);
+  padding: 72px 32px 64px;
+  text-align: center;
+}
+.portada .marca { font-size: 13px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--amarillo); }
+.portada h1 { font-size: 42px; margin: 16px 0 12px; }
+.portada p  { color: var(--teal-claro); max-width: 62ch; margin: 0 auto; font-size: 15px; }
+
+.contenido { max-width: 1040px; margin: -40px auto 80px; padding: 0 24px; }
+
+.tarjeta {
+  background: var(--blanco);
+  border-radius: var(--r-card);
+  box-shadow: var(--sombra-md);
+  padding: 32px 34px;
+  margin-bottom: 22px;
+}
+.tarjeta h2 { font-size: 19px; margin-bottom: 6px; }
+.tarjeta > p { font-size: 13px; color: var(--gris-500); margin-bottom: 22px; }
+
+.lista-pantallas { display: grid; gap: 2px; }
+.lista-pantallas a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 13px 14px;
+  border-radius: var(--r);
+  text-decoration: none;
+  color: var(--gris-900);
+  transition: background .12s;
+}
+.lista-pantallas a:hover { background: var(--gris-50); }
+.lista-pantallas .cod {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--amarillo-oscuro);
+  width: 72px;
+  flex: none;
+  font-size: 13px;
+}
+.lista-pantallas .nom { flex: 1; font-size: 14px; }
+.lista-pantallas .flecha { color: var(--gris-300); }
+.lista-pantallas a.es-pendiente .nom { color: var(--rojo); font-weight: 600; }
+
+.leyenda { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 10px; }
+.leyenda__item { padding: 16px; border: 1px solid var(--gris-200); border-radius: var(--r); font-size: 12px; color: var(--gris-600); }
+.leyenda__item b { display: block; color: var(--gris-900); margin-bottom: 5px; font-size: 13px; }
+
+.aviso {
+  padding: 18px 20px;
+  background: var(--amarillo-suave);
+  border-left: 3px solid var(--amarillo);
+  border-radius: var(--r);
+  font-size: 13px;
+  color: var(--gris-600);
+  line-height: 1.6;
+}
+
+/* ===========================================================
+   Responsive
+   =========================================================== */
+
+@media (max-width: 1100px) {
+  .asistente { grid-template-columns: 1fr; }
+  .asistente__ayuda { border-left: none; border-top: 1px solid var(--gris-200); }
+  .login { grid-template-columns: 1fr; }
+  .login__arte { min-height: 300px; }
+  .resumen, .leyenda { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+  .lienzo { margin: 12px; border-radius: var(--r); }
+  .asistente__form, .login__panel, .login__arte, .final { padding: 28px 20px; }
+  .rejilla.dos, .rejilla.tres, .rejilla.cuatro { grid-template-columns: 1fr; }
+  .col-2 { grid-column: span 1; }
+  .portada h1 { font-size: 30px; }
+  .portada { padding: 48px 20px 56px; }
+  .tarjeta { padding: 24px 20px; }
+
+  /* La barra de revisión no debe empujar el ancho de la página */
+  .barra { gap: 8px; padding: 0 10px; }
+  .barra__marca  { font-size: 10px; }
+  .barra__titulo { display: none; }
+  .barra__paso   { display: none; }
+  .barra__btn    { padding: 6px 11px; font-size: 11px; }
+
+  /* La barra de pasos se desliza a lo ancho en lugar de desbordar */
+  .progreso {
+    padding: 16px 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .progreso__linea { min-width: 18px; margin: 0 8px; }
+  .progreso__texto { font-size: 11px; }
+
+  .botones { flex-direction: column; align-items: stretch; }
+  .botones__der { margin-left: 0; flex-direction: column; }
+  .btn { width: 100%; }
+  .modal__botones { flex-direction: column; }
+
+  .tabla { display: block; overflow-x: auto; white-space: nowrap; }
+  .lista-pantallas .cod { width: 58px; font-size: 12px; }
+  .lista-pantallas .nom { font-size: 13px; }
+}
+
+@media (max-width: 420px) {
+  .barra__marca { display: none; }
+}
+
+
+/* --- Sólo para la versión de un solo archivo --- */
+.pantalla[hidden],
+#barra[hidden] { display: none !important; }
+</style>
+
+<div id="barra" hidden></div>
+
+<section class="pantalla" data-codigo="indice">
+
+  <header class="portada">
+    <div class="marca">INMEDIC</div>
+    <h1>Prototipo navegable</h1>
+    <p>Las pantallas del módulo de Registro, para recorrerlas en el navegador como si fueras el usuario.
+       Cada pantalla tiene su propia dirección: se puede compartir el enlace de una sola.</p>
+  </header>
+
+  <main class="contenido">
+
+    <section class="tarjeta">
+      <h2>Cómo se usa</h2>
+      <p>Está pensado para revisarlo de corrido.</p>
+      <div class="leyenda">
+        <div class="leyenda__item">
+          <b>Se navega solo</b>
+          Los botones de las pantallas están conectados. Pica “Iniciar Sesión”, “Continuar”, “Editar” y vas avanzando.
+        </div>
+        <div class="leyenda__item">
+          <b>Barra de arriba</b>
+          En cada pantalla ves el código, el nombre y en cuál vas. Con <b>Anterior</b> y <b>Siguiente</b> recorres las 12 en orden.
+        </div>
+        <div class="leyenda__item">
+          <b>Flechas del teclado</b>
+          ← y → también avanzan y retroceden, para ir rápido en una junta.
+        </div>
+      </div>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Módulo 01 · Registro</h2>
+      <p>Lo que hace el usuario la primera vez que entra: se identifica, dice quién es ante Hacienda, registra su sede y agrega sus sucursales.</p>
+      <div class="lista-pantallas">
+        <a href="#1.1.01"><span class="cod">1.1.01</span><span class="nom">Log in</span><span class="flecha">&rarr;</span></a>
+<a href="#1.1.02"><span class="cod">1.1.02</span><span class="nom">Restablecer contraseña</span><span class="flecha">&rarr;</span></a>
+<a href="#1.2.01"><span class="cod">1.2.01</span><span class="nom">Paso 2 · Datos fiscales — Persona Moral</span><span class="flecha">&rarr;</span></a>
+<a href="#1.2.02"><span class="cod">1.2.02</span><span class="nom">Paso 2 · Datos fiscales — Persona Física</span><span class="flecha">&rarr;</span></a>
+<a href="#1.3.01"><span class="cod">1.3.01</span><span class="nom">Paso 3 · Registro de Cede (sede principal)</span><span class="flecha">&rarr;</span></a>
+<a href="#1.4.01"><span class="cod">1.4.01</span><span class="nom">Paso 4 · Sucursales — aún no hay ninguna</span><span class="flecha">&rarr;</span></a>
+<a href="#1.4.02"><span class="cod">1.4.02</span><span class="nom">Paso 4 · Sucursales — agregar otra</span><span class="flecha">&rarr;</span></a>
+<a href="#1.4.03"><span class="cod">1.4.03</span><span class="nom">Paso 4 · Sucursales — editar una</span><span class="flecha">&rarr;</span></a>
+<a href="#1.4.04"><span class="cod">1.4.04</span><span class="nom">Paso 4 · Sucursales — falta un campo</span><span class="flecha">&rarr;</span></a>
+<a href="#1.4.05"><span class="cod">1.4.05</span><span class="nom">Paso 4 · Modal "¿Terminar?"</span><span class="flecha">&rarr;</span></a>
+<a href="#1.4.06"><span class="cod">1.4.06</span><span class="nom">Paso 4 · Modal "¿Cancelar?"</span><span class="flecha">&rarr;</span></a>
+<a href="#1.5.01" class="es-pendiente"><span class="cod">1.5.01</span><span class="nom">Paso 5 · Finalización · pantalla nueva, no existía</span><span class="flecha">&rarr;</span></a>
+      </div>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Lo que hay que decidir</h2>
+      <p>Salió al programar las pantallas. Cada punto está anotado también al pie de la pantalla donde aplica.</p>
+      <div class="lista-pantallas">
+        <a href="#1.1.02"><span class="cod">1.1.02</span><span class="nom">Qué pasa si las dos contraseñas no coinciden, y el mínimo de caracteres</span><span class="flecha">&rarr;</span></a>
+<a href="#1.2.02"><span class="cod">1.2.02</span><span class="nom">¿El logotipo es obligatorio también para persona física?</span><span class="flecha">&rarr;</span></a>
+<a href="#1.3.01"><span class="cod">1.3.01</span><span class="nom">¿“Cede” se queda con C o se corrige a “Sede”?</span><span class="flecha">&rarr;</span></a>
+<a href="#1.4.01"><span class="cod">1.4.01</span><span class="nom">¿Se puede terminar el registro sin ninguna sucursal?</span><span class="flecha">&rarr;</span></a>
+<a href="#1.4.02"><span class="cod">1.4.02</span><span class="nom">¿La Cede aparece dentro de la tabla de sucursales o aparte?</span><span class="flecha">&rarr;</span></a>
+<a href="#1.4.04"><span class="cod">1.4.04</span><span class="nom">Cuáles campos son realmente obligatorios</span><span class="flecha">&rarr;</span></a>
+<a href="#1.4.06"><span class="cod">1.4.06</span><span class="nom">Al cancelar, ¿se pierde también la Cede? ¿A dónde va el usuario?</span><span class="flecha">&rarr;</span></a>
+<a href="#1.5.01"><span class="cod">1.5.01</span><span class="nom">Pantalla nueva: ¿los tres botones del final están bien?</span><span class="flecha">&rarr;</span></a>
+      </div>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Qué sigue</h2>
+      <p>Éste es el primer módulo, el que se acordó revisar primero.</p>
+      <div class="aviso">
+        Faltan por programar los módulos <b>02 Usuarios</b>, <b>03 Compras y Almacén</b>, <b>04 Almacén</b>,
+        <b>05 Catálogos</b>, <b>06 Archivo Digital</b>, <b>07 Home y Remisiones</b> y <b>08 Perfil</b>.
+        Se van haciendo conforme se vayan cerrando en la revisión, para no programar dos veces lo mismo.
+      </div>
+    </section>
+
+  </main>
+</section>
+
+<section class="pantalla" data-codigo="1.1.01">
+<div class="lienzo">
+  <div class="login">
+
+    <div class="login__arte">
+      <div class="login__marca">INMEDIC</div>
+      <div>
+        <h1>Gestión Médica<br>Inteligente</h1>
+        <p>Optimiza la gestión de tu centro médico con tecnología pensada para la renta de instrumental y aparatos médicos.</p>
+      </div>
+      <div class="insignias">
+        <span class="insignia">Seguro · Datos protegidos</span>
+        <span class="insignia">Eficiente · Procesos optimizados</span>
+        <span class="insignia">Especializado</span>
+      </div>
+    </div>
+
+    <div class="login__panel">
+      <form class="login__caja">
+        <h2>Sistema ERP Médico</h2>
+        <p>Ingresa con el correo proveído al administrador de tu empresa.</p>
+
+        <div class="campo">
+          <label for="correo">Correo electrónico</label>
+          <input id="correo" type="email" placeholder="ejemplo@tuempresa.com">
+        </div>
+
+        <div class="campo">
+          <label for="pass">Contraseña</label>
+          <input id="pass" type="password" placeholder="***********">
+        </div>
+
+        <a class="btn btn--principal btn--ancho" href="#1.2.01">Iniciar Sesión</a>
+
+        <div class="login__pie">
+          <p style="margin-bottom:10px"><a href="#1.1.02">¿Olvidaste tu contraseña?</a></p>
+          <p>Si tienes algún problema <a href="#">contáctanos</a></p>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<p class="nota-pantalla">
+  <b>Por dónde sigue:</b> el botón <b>Iniciar Sesión</b> lleva al paso 2 (1.2.01) y
+  <b>¿Olvidaste tu contraseña?</b> lleva a 1.1.02. Los dos están conectados, pruébalos.
+</p>
+</section>
+<section class="pantalla" data-codigo="1.1.02">
+<div class="lienzo">
+  <div class="login">
+
+    <div class="login__arte">
+      <div class="login__marca">INMEDIC</div>
+      <div>
+        <h1>Recupera tu<br>acceso</h1>
+        <p>Te enviamos un enlace al correo con el que estás registrado. Desde aquí defines una contraseña nueva.</p>
+      </div>
+      <div class="insignias">
+        <span class="insignia">Seguro · Datos protegidos</span>
+      </div>
+    </div>
+
+    <div class="login__panel">
+      <form class="login__caja">
+        <h2>Restablecer contraseña</h2>
+        <p>Has ingresado con el correo <b>correo_electronico@ejemplo.com</b></p>
+
+        <div class="campo">
+          <label for="nueva">Escribe tu nueva contraseña</label>
+          <input id="nueva" type="password" placeholder="**********">
+        </div>
+
+        <div class="campo">
+          <label for="repite">Repite tu contraseña</label>
+          <input id="repite" type="password" placeholder="**********">
+        </div>
+
+        <a class="btn btn--principal btn--ancho" href="#1.2.01">Guardar y continuar</a>
+
+        <div class="login__pie">
+          <p><a href="#1.1.01">Volver al inicio de sesión</a></p>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<p class="nota-pantalla">
+  <b>Falta definir:</b> qué pasa si las dos contraseñas no coinciden, y cuántos caracteres se van a pedir como mínimo.
+</p>
+</section>
+<section class="pantalla" data-codigo="1.2.01">
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">2</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">3</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">4</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="asistente">
+    <form class="asistente__form">
+
+      <div class="encabezado-paso">
+        <h2>Registro de Empresa</h2>
+        <p>Ahora continuaremos con el registro fiscal de tu empresa. Elige con qué régimen está dada de alta y llena los datos que aparecen en tu constancia de situación fiscal.</p>
+      </div>
+
+      <div class="pestanas">
+        <a class="es-activa" href="#1.2.01">Persona Moral</a>
+        <a href="#1.2.02">Persona Física</a>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Datos de la empresa</div>
+        <div class="rejilla dos">
+          <div class="campo">
+            <label for="comercial">Nombre comercial <span class="req">*</span></label>
+            <input id="comercial" placeholder="Nombre comercial de la empresa">
+          </div>
+          <div class="campo">
+            <label for="razon">Razón Social <span class="req">*</span></label>
+            <input id="razon" placeholder="Razón Social de la empresa">
+          </div>
+          <div class="campo">
+            <label for="rfc">RFC <span class="req">*</span></label>
+            <input id="rfc" placeholder="RFC de tu empresa" maxlength="12">
+          </div>
+          <div class="campo">
+            <label for="regimen">Régimen fiscal <span class="req">*</span></label>
+            <select id="regimen">
+              <option>Selecciona una opción</option>
+              <option>601 · General de Ley Personas Morales</option>
+              <option>603 · Personas Morales con Fines no Lucrativos</option>
+              <option>620 · Sociedades Cooperativas de Producción</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Domicilio Fiscal</div>
+        <div class="rejilla cuatro">
+          <div class="campo col-2">
+            <label for="calle">Calle <span class="req">*</span></label>
+            <input id="calle" placeholder="Calle">
+          </div>
+          <div class="campo">
+            <label for="ext">Ext. <span class="req">*</span></label>
+            <input id="ext" placeholder="000">
+          </div>
+          <div class="campo">
+            <label for="int">Int.</label>
+            <input id="int" placeholder="000">
+          </div>
+          <div class="campo col-2">
+            <label for="colonia">Colonia <span class="req">*</span></label>
+            <input id="colonia" placeholder="Colonia">
+          </div>
+          <div class="campo">
+            <label for="cp">C.P. <span class="req">*</span></label>
+            <input id="cp" placeholder="00000" maxlength="5">
+          </div>
+          <div class="campo">
+            <label for="estado">Estado <span class="req">*</span></label>
+            <select id="estado"><option>Jalisco</option><option>Ciudad de México</option><option>Nuevo León</option></select>
+          </div>
+          <div class="campo col-2">
+            <label for="ciudad">Ciudad <span class="req">*</span></label>
+            <input id="ciudad" placeholder="Ciudad">
+          </div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Documentos</div>
+        <div class="rejilla dos">
+          <div class="subir">
+            <b>Subir Logotipo</b>
+            PNG o SVG, fondo transparente
+          </div>
+          <div class="subir">
+            <b>Constancia de situación fiscal</b>
+            PDF descargado del SAT
+          </div>
+        </div>
+      </div>
+
+      <div class="botones">
+        <a class="btn btn--texto" href="#1.1.01">← Regresar</a>
+        <div class="botones__der">
+          <a class="btn btn--principal" href="#1.3.01">Continuar</a>
+        </div>
+      </div>
+
+    </form>
+
+    <aside class="asistente__ayuda ayuda">
+      <div class="ayuda__ilustracion">🏢</div>
+      <div>
+        <h3>¿Por qué te pedimos esto?</h3>
+        <p>Con estos datos el sistema arma automáticamente las remisiones y las facturas. Si algo está mal escrito aquí, sale mal en todos los documentos.</p>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>Ten a la mano tu <b>constancia de situación fiscal</b>. Todos los campos de esta pantalla vienen en ese documento.</span>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>Si te equivocas, más adelante lo puedes corregir en <b>Perfil de la empresa</b> (módulo 08).</span>
+      </div>
+    </aside>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Aquí el camino se parte en dos.</b> Las pestañas de arriba cambian los campos: Persona Moral pide razón social y logotipo;
+  Persona Física pide nombre y apellidos. Pruébalas, están conectadas.
+</p>
+</section>
+<section class="pantalla" data-codigo="1.2.02">
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">2</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">3</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">4</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="asistente">
+    <form class="asistente__form">
+
+      <div class="encabezado-paso">
+        <h2>Registro de Empresa</h2>
+        <p>Ahora continuaremos con el registro fiscal de tu empresa. Elige con qué régimen está dada de alta y llena los datos que aparecen en tu constancia de situación fiscal.</p>
+      </div>
+
+      <div class="pestanas">
+        <a href="#1.2.01">Persona Moral</a>
+        <a class="es-activa" href="#1.2.02">Persona Física</a>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Datos de la persona</div>
+        <div class="rejilla tres">
+          <div class="campo">
+            <label for="nombres">Nombre(s) <span class="req">*</span></label>
+            <input id="nombres" placeholder="Nombres">
+          </div>
+          <div class="campo">
+            <label for="paterno">Apellido (Paterno) <span class="req">*</span></label>
+            <input id="paterno" placeholder="Paterno">
+          </div>
+          <div class="campo">
+            <label for="materno">Apellido (Materno)</label>
+            <input id="materno" placeholder="Materno">
+          </div>
+          <div class="campo">
+            <label for="nacimiento">Fecha de nacimiento <span class="req">*</span></label>
+            <input id="nacimiento" placeholder="DD/MM/AA">
+          </div>
+          <div class="campo">
+            <label for="rfc">RFC <span class="req">*</span></label>
+            <input id="rfc" placeholder="RFC a 13 posiciones" maxlength="13">
+          </div>
+          <div class="campo">
+            <label for="regimen">Régimen fiscal <span class="req">*</span></label>
+            <select id="regimen">
+              <option>Selecciona una opción</option>
+              <option>612 · Actividades Empresariales y Profesionales</option>
+              <option>621 · Incorporación Fiscal</option>
+              <option>626 · Régimen Simplificado de Confianza</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Domicilio Fiscal</div>
+        <div class="rejilla cuatro">
+          <div class="campo col-2">
+            <label for="calle">Calle <span class="req">*</span></label>
+            <input id="calle" placeholder="Calle">
+          </div>
+          <div class="campo">
+            <label for="ext">Ext. <span class="req">*</span></label>
+            <input id="ext" placeholder="000">
+          </div>
+          <div class="campo">
+            <label for="int">Int.</label>
+            <input id="int" placeholder="000">
+          </div>
+          <div class="campo col-2">
+            <label for="colonia">Colonia <span class="req">*</span></label>
+            <input id="colonia" placeholder="Colonia">
+          </div>
+          <div class="campo">
+            <label for="cp">C.P. <span class="req">*</span></label>
+            <input id="cp" placeholder="00000" maxlength="5">
+          </div>
+          <div class="campo">
+            <label for="estado">Estado <span class="req">*</span></label>
+            <select id="estado"><option>Jalisco</option><option>Ciudad de México</option><option>Nuevo León</option></select>
+          </div>
+          <div class="campo col-2">
+            <label for="ciudad">Ciudad <span class="req">*</span></label>
+            <input id="ciudad" placeholder="Ciudad">
+          </div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Documentos</div>
+        <div class="rejilla dos">
+          <div class="subir">
+            <b>Subir Logotipo</b>
+            Opcional para persona física
+          </div>
+          <div class="subir">
+            <b>Constancia de situación fiscal</b>
+            PDF descargado del SAT
+          </div>
+        </div>
+      </div>
+
+      <div class="botones">
+        <a class="btn btn--texto" href="#1.1.01">← Regresar</a>
+        <div class="botones__der">
+          <a class="btn btn--principal" href="#1.3.01">Continuar</a>
+        </div>
+      </div>
+
+    </form>
+
+    <aside class="asistente__ayuda ayuda">
+      <div class="ayuda__ilustracion">👤</div>
+      <div>
+        <h3>Persona Física</h3>
+        <p>Son los mismos pasos que para Persona Moral, sólo cambian los campos de identidad: en lugar de razón social se piden nombre y apellidos.</p>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>El RFC de persona física trae <b>13 posiciones</b>; el de persona moral, 12. El sistema lo valida solo.</span>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>A partir de aquí el recorrido es idéntico para los dos regímenes.</span>
+      </div>
+    </aside>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Para confirmar:</b> ¿el logotipo es obligatorio también para persona física, o se puede dejar en blanco?
+</p>
+</section>
+<section class="pantalla" data-codigo="1.3.01">
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">3</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">4</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="asistente">
+    <form class="asistente__form">
+
+      <div class="encabezado-paso">
+        <h2>Registro de Cede</h2>
+        <p>Ahora continuaremos con el registro de tu empresa. Esta es la dirección principal, desde donde opera el negocio.</p>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Identificación</div>
+        <div class="rejilla dos">
+          <div class="campo">
+            <label for="nombre">Nombre de la Sucursal <span class="req">*</span></label>
+            <input id="nombre" placeholder="Matriz">
+          </div>
+          <div class="campo">
+            <label for="tel">Teléfono de contacto</label>
+            <input id="tel" placeholder="33 0000 0000">
+          </div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Ubicación</div>
+
+        <div style="margin-bottom:16px">
+          <button type="button" class="btn btn--fantasma" style="height:36px;padding:0 18px">Usar domicilio fiscal</button>
+          <span style="font-size:12px;color:var(--gris-500);margin-left:10px">Copia la dirección que capturaste en el paso anterior</span>
+        </div>
+
+        <div class="rejilla cuatro">
+          <div class="campo col-2">
+            <label for="calle">Calle <span class="req">*</span></label>
+            <input id="calle" placeholder="Calle">
+          </div>
+          <div class="campo">
+            <label for="ext">Ext. <span class="req">*</span></label>
+            <input id="ext" placeholder="000">
+          </div>
+          <div class="campo">
+            <label for="int">Int.</label>
+            <input id="int" placeholder="000">
+          </div>
+          <div class="campo col-2">
+            <label for="colonia">Colonia <span class="req">*</span></label>
+            <input id="colonia" placeholder="Colonia">
+          </div>
+          <div class="campo">
+            <label for="cp">C.P. <span class="req">*</span></label>
+            <input id="cp" placeholder="00000" maxlength="5">
+          </div>
+          <div class="campo">
+            <label for="estado">Estado <span class="req">*</span></label>
+            <select id="estado"><option>Jalisco</option><option>Ciudad de México</option><option>Nuevo León</option></select>
+          </div>
+          <div class="campo col-2">
+            <label for="ciudad">Ciudad <span class="req">*</span></label>
+            <input id="ciudad" placeholder="Ciudad">
+          </div>
+        </div>
+      </div>
+
+      <div class="botones">
+        <a class="btn btn--texto" href="#1.2.01">← Regresar</a>
+        <div class="botones__der">
+          <a class="btn btn--principal" href="#1.4.01">Continuar</a>
+        </div>
+      </div>
+
+    </form>
+
+    <aside class="asistente__ayuda ayuda">
+      <div class="ayuda__ilustracion">📍</div>
+      <div>
+        <h3>Cede es la dirección principal</h3>
+        <p>Es desde donde sale el instrumental. Las sucursales, que vienen en el paso siguiente, cuelgan de esta dirección.</p>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>Si la empresa opera desde el mismo domicilio fiscal, con el botón <b>Usar domicilio fiscal</b> se llena todo de un golpe.</span>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>Esta dirección aparece impresa en las remisiones que se entregan al hospital.</span>
+      </div>
+    </aside>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Para confirmar:</b> ¿"Cede" se queda así o se cambia a <b>"Sede"</b>? En el sistema actual está escrito con C.
+  Si se cambia, hay que cambiarlo también en la barra de progreso de las 11 pantallas.
+</p>
+</section>
+<section class="pantalla" data-codigo="1.4.01">
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">4</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="asistente">
+    <form class="asistente__form">
+
+      <div class="encabezado-paso">
+        <h2>Registro de Sucursales</h2>
+        <p>Ahora continuaremos con el registro de tu empresa. Si operas en más de un punto, agrégalos aquí. Si no, puedes terminar el registro y agregarlos después.</p>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Nueva sucursal</div>
+        <div class="rejilla dos">
+          <div class="campo">
+            <label for="nombre">Nombre de la Sucursal <span class="req">*</span></label>
+            <input id="nombre" placeholder="Sucursal Centro">
+          </div>
+          <div class="campo">
+            <label for="tel">Teléfono de contacto</label>
+            <input id="tel" placeholder="33 0000 0000">
+          </div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Ubicación</div>
+        <div class="rejilla cuatro">
+          <div class="campo col-2">
+            <label for="calle">Calle <span class="req">*</span></label>
+            <input id="calle" placeholder="Calle">
+          </div>
+          <div class="campo">
+            <label for="ext">Ext. <span class="req">*</span></label>
+            <input id="ext" placeholder="000">
+          </div>
+          <div class="campo">
+            <label for="int">Int.</label>
+            <input id="int" placeholder="000">
+          </div>
+          <div class="campo col-2">
+            <label for="colonia">Colonia <span class="req">*</span></label>
+            <input id="colonia" placeholder="Colonia">
+          </div>
+          <div class="campo">
+            <label for="cp">C.P. <span class="req">*</span></label>
+            <input id="cp" placeholder="00000" maxlength="5">
+          </div>
+          <div class="campo">
+            <label for="estado">Estado <span class="req">*</span></label>
+            <select id="estado"><option>Jalisco</option><option>Ciudad de México</option><option>Nuevo León</option></select>
+          </div>
+          <div class="campo col-2">
+            <label for="ciudad">Ciudad <span class="req">*</span></label>
+            <input id="ciudad" placeholder="Ciudad">
+          </div>
+        </div>
+        <div style="margin-top:18px">
+          <a class="btn btn--fantasma" href="#1.4.02">+ Agregar sucursal</a>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Sucursales registradas</div>
+        <div class="vacio">
+          <div class="icono">🏬</div>
+          <h4>Todavía no has agregado ninguna sucursal</h4>
+          <p>Llena el formulario de arriba y presiona “Agregar sucursal”.<br>También puedes terminar el registro y agregarlas más adelante.</p>
+        </div>
+      </div>
+
+      <div class="botones">
+        <a class="btn btn--texto" href="#1.4.06">Cancelar</a>
+        <div class="botones__der">
+          <a class="btn btn--fantasma" href="#1.4.05">Terminar</a>
+          <a class="btn btn--principal" href="#1.4.02">Agregar sucursal</a>
+        </div>
+      </div>
+
+    </form>
+
+    <aside class="asistente__ayuda ayuda">
+      <div class="ayuda__ilustracion">🏬</div>
+      <div>
+        <h3>Estado vacío</h3>
+        <p>Así se ve la pantalla la primera vez, cuando todavía no hay ninguna sucursal capturada.</p>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>Las sucursales no son obligatorias. Se puede terminar el registro sin ninguna y agregarlas después desde el sistema.</span>
+      </div>
+    </aside>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Para confirmar:</b> ¿se puede terminar el registro sin capturar ninguna sucursal, o se obliga a capturar al menos una?
+</p>
+</section>
+<section class="pantalla" data-codigo="1.4.02">
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">4</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="asistente">
+    <form class="asistente__form">
+
+      <div class="encabezado-paso">
+        <h2>Registro de Sucursales</h2>
+        <p>Ya tienes sucursales capturadas. Puedes seguir agregando las que falten, editar las que ya están, o terminar el registro.</p>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Nueva sucursal</div>
+        <div class="rejilla dos">
+          <div class="campo">
+            <label for="nombre">Nombre de la Sucursal <span class="req">*</span></label>
+            <input id="nombre" placeholder="Sucursal Zapopan">
+          </div>
+          <div class="campo">
+            <label for="tel">Teléfono de contacto</label>
+            <input id="tel" placeholder="33 0000 0000">
+          </div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Ubicación</div>
+        <div class="rejilla cuatro">
+          <div class="campo col-2">
+            <label for="calle">Calle <span class="req">*</span></label>
+            <input id="calle" placeholder="Calle">
+          </div>
+          <div class="campo">
+            <label for="ext">Ext. <span class="req">*</span></label>
+            <input id="ext" placeholder="000">
+          </div>
+          <div class="campo">
+            <label for="int">Int.</label>
+            <input id="int" placeholder="000">
+          </div>
+          <div class="campo col-2">
+            <label for="colonia">Colonia <span class="req">*</span></label>
+            <input id="colonia" placeholder="Colonia">
+          </div>
+          <div class="campo">
+            <label for="cp">C.P. <span class="req">*</span></label>
+            <input id="cp" placeholder="00000" maxlength="5">
+          </div>
+          <div class="campo">
+            <label for="estado">Estado <span class="req">*</span></label>
+            <select id="estado"><option>Jalisco</option><option>Ciudad de México</option><option>Nuevo León</option></select>
+          </div>
+          <div class="campo col-2">
+            <label for="ciudad">Ciudad <span class="req">*</span></label>
+            <input id="ciudad" placeholder="Ciudad">
+          </div>
+        </div>
+        <div style="margin-top:18px">
+          <button type="button" class="btn btn--fantasma">+ Agregar sucursal</button>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Sucursales registradas · 2</div>
+        <table class="tabla">
+          <thead>
+            <tr><th>Nombre</th><th>Dirección</th><th>Ciudad</th><th></th><th class="acciones">Acciones</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Matriz</b></td>
+              <td>Av. Vallarta 1234, Int. 5 · Col. Americana · C.P. 44160</td>
+              <td>Guadalajara, Jalisco</td>
+              <td><span class="etiqueta etiqueta--principal">Cede</span></td>
+              <td class="acciones">
+                <a class="accion" href="#1.4.03">Editar</a>
+                <button type="button" class="accion es-peligro">Eliminar</button>
+              </td>
+            </tr>
+            <tr>
+              <td><b>Sucursal Centro</b></td>
+              <td>Calle Morelos 87 · Col. Centro · C.P. 44100</td>
+              <td>Guadalajara, Jalisco</td>
+              <td></td>
+              <td class="acciones">
+                <a class="accion" href="#1.4.03">Editar</a>
+                <button type="button" class="accion es-peligro">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="botones">
+        <a class="btn btn--texto" href="#1.4.06">Cancelar</a>
+        <div class="botones__der">
+          <a class="btn btn--principal" href="#1.4.05">Terminar</a>
+        </div>
+      </div>
+
+    </form>
+
+    <aside class="asistente__ayuda ayuda">
+      <div class="ayuda__ilustracion">🏬</div>
+      <div>
+        <h3>Con sucursales ya creadas</h3>
+        <p>La misma pantalla, pero con la tabla llena. Desde la tabla se edita o se elimina cada sucursal.</p>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>La <b>Cede</b> que capturaste en el paso 3 aparece en la tabla marcada con su etiqueta. No se puede eliminar.</span>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>Prueba el botón <b>Editar</b> de cualquier fila: lleva a la pantalla 1.4.03.</span>
+      </div>
+    </aside>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Para confirmar:</b> ¿la Cede debe aparecer dentro de la tabla de sucursales, o se muestra aparte?
+  Aquí la puse dentro, marcada con etiqueta, para que se vea completa la operación.
+</p>
+</section>
+<section class="pantalla" data-codigo="1.4.03">
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">4</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="asistente">
+    <form class="asistente__form">
+
+      <div class="encabezado-paso">
+        <h2>Editar sucursal</h2>
+        <p>Estás modificando <b>Sucursal Centro</b>. Los campos llegan llenos con lo que ya estaba capturado.</p>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Identificación</div>
+        <div class="rejilla dos">
+          <div class="campo">
+            <label for="nombre">Nombre de la Sucursal <span class="req">*</span></label>
+            <input id="nombre" value="Sucursal Centro">
+          </div>
+          <div class="campo">
+            <label for="tel">Teléfono de contacto</label>
+            <input id="tel" value="33 1544 7887">
+          </div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Ubicación</div>
+        <div class="rejilla cuatro">
+          <div class="campo col-2">
+            <label for="calle">Calle <span class="req">*</span></label>
+            <input id="calle" value="Calle Morelos">
+          </div>
+          <div class="campo">
+            <label for="ext">Ext. <span class="req">*</span></label>
+            <input id="ext" value="87">
+          </div>
+          <div class="campo">
+            <label for="int">Int.</label>
+            <input id="int" placeholder="000">
+          </div>
+          <div class="campo col-2">
+            <label for="colonia">Colonia <span class="req">*</span></label>
+            <input id="colonia" value="Centro">
+          </div>
+          <div class="campo">
+            <label for="cp">C.P. <span class="req">*</span></label>
+            <input id="cp" value="44100" maxlength="5">
+          </div>
+          <div class="campo">
+            <label for="estado">Estado <span class="req">*</span></label>
+            <select id="estado"><option>Jalisco</option><option>Ciudad de México</option><option>Nuevo León</option></select>
+          </div>
+          <div class="campo col-2">
+            <label for="ciudad">Ciudad <span class="req">*</span></label>
+            <input id="ciudad" value="Guadalajara">
+          </div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Sucursales registradas · 2</div>
+        <table class="tabla">
+          <thead>
+            <tr><th>Nombre</th><th>Dirección</th><th>Ciudad</th><th></th><th class="acciones">Acciones</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Matriz</b></td>
+              <td>Av. Vallarta 1234, Int. 5 · Col. Americana · C.P. 44160</td>
+              <td>Guadalajara, Jalisco</td>
+              <td><span class="etiqueta etiqueta--principal">Cede</span></td>
+              <td class="acciones"><a class="accion" href="#1.4.03">Editar</a></td>
+            </tr>
+            <tr style="background:var(--amarillo-suave)">
+              <td><b>Sucursal Centro</b></td>
+              <td>Calle Morelos 87 · Col. Centro · C.P. 44100</td>
+              <td>Guadalajara, Jalisco</td>
+              <td><span class="etiqueta etiqueta--principal">Editando</span></td>
+              <td class="acciones"><button type="button" class="accion es-peligro">Eliminar</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="botones">
+        <a class="btn btn--texto" href="#1.4.02">Cancelar edición</a>
+        <div class="botones__der">
+          <a class="btn btn--fantasma" href="#1.4.04">Ver qué pasa si falta un campo</a>
+          <a class="btn btn--principal" href="#1.4.02">Guardar cambios</a>
+        </div>
+      </div>
+
+    </form>
+
+    <aside class="asistente__ayuda ayuda">
+      <div class="ayuda__ilustracion">✏️</div>
+      <div>
+        <h3>Editar</h3>
+        <p>Es la misma pantalla de captura, pero con los datos ya cargados y con la fila resaltada en la tabla para que se vea cuál se está tocando.</p>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>El botón principal cambia de <b>Agregar sucursal</b> a <b>Guardar cambios</b>. Es la misma regla que se usa en todo el sistema.</span>
+      </div>
+    </aside>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Nota del prototipo:</b> el botón gris “Ver qué pasa si falta un campo” no existe en el producto real, está sólo
+  para que puedas brincar a la pantalla 1.4.04 y ver el estado de error.
+</p>
+</section>
+<section class="pantalla" data-codigo="1.4.04">
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">4</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="asistente">
+    <form class="asistente__form">
+
+      <div class="encabezado-paso">
+        <h2>Editar sucursal</h2>
+        <p>Estás modificando <b>Sucursal Centro</b>.</p>
+      </div>
+
+      <div class="aviso" style="margin-bottom:26px;border-left-color:var(--rojo);background:var(--rojo-suave)">
+        <b style="color:var(--rojo)">Faltan datos por capturar.</b>
+        Revisa los campos marcados en rojo. No se puede guardar hasta que estén completos.
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Identificación</div>
+        <div class="rejilla dos">
+          <div class="campo">
+            <label for="nombre">Nombre de la Sucursal <span class="req">*</span></label>
+            <input id="nombre" value="Sucursal Centro">
+          </div>
+          <div class="campo">
+            <label for="tel">Teléfono de contacto</label>
+            <input id="tel" value="33 1544 7887">
+          </div>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <div class="grupo__titulo">Ubicación</div>
+        <div class="rejilla cuatro">
+          <div class="campo col-2 es-error">
+            <label for="calle">Calle <span class="req">*</span></label>
+            <input id="calle" value="" placeholder="Calle">
+            <span class="campo__error">⚠ Falta completar el campo</span>
+          </div>
+          <div class="campo">
+            <label for="ext">Ext. <span class="req">*</span></label>
+            <input id="ext" value="87">
+          </div>
+          <div class="campo">
+            <label for="int">Int.</label>
+            <input id="int" placeholder="000">
+          </div>
+          <div class="campo col-2">
+            <label for="colonia">Colonia <span class="req">*</span></label>
+            <input id="colonia" value="Centro">
+          </div>
+          <div class="campo es-error">
+            <label for="cp">C.P. <span class="req">*</span></label>
+            <input id="cp" value="" placeholder="00000" maxlength="5">
+            <span class="campo__error">⚠ Falta completar el campo</span>
+          </div>
+          <div class="campo">
+            <label for="estado">Estado <span class="req">*</span></label>
+            <select id="estado"><option>Jalisco</option><option>Ciudad de México</option><option>Nuevo León</option></select>
+          </div>
+          <div class="campo col-2">
+            <label for="ciudad">Ciudad <span class="req">*</span></label>
+            <input id="ciudad" value="Guadalajara">
+          </div>
+        </div>
+      </div>
+
+      <div class="botones">
+        <a class="btn btn--texto" href="#1.4.02">Cancelar edición</a>
+        <div class="botones__der">
+          <a class="btn btn--principal" href="#1.4.03">Guardar cambios</a>
+        </div>
+      </div>
+
+    </form>
+
+    <aside class="asistente__ayuda ayuda">
+      <div class="ayuda__ilustracion" style="background:var(--rojo)">⚠</div>
+      <div>
+        <h3>Estado de error</h3>
+        <p>Así se ve cuando el usuario intenta guardar y dejó campos obligatorios vacíos.</p>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>El aviso aparece <b>arriba</b> y además en cada campo. Así se entiende aunque el formulario sea largo y haya que hacer scroll.</span>
+      </div>
+      <div class="tip">
+        <span class="icono">◆</span>
+        <span>Los campos obligatorios se marcan con asterisco rojo desde el principio, para que no sea sorpresa.</span>
+      </div>
+    </aside>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Para confirmar:</b> ¿cuáles campos son de verdad obligatorios? Aquí puse Calle, Ext., Colonia, C.P., Estado y Ciudad.
+  Int. y Teléfono los dejé opcionales.
+</p>
+</section>
+<section class="pantalla" data-codigo="1.4.05">
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">4</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="asistente">
+    <div class="asistente__form">
+      <div class="encabezado-paso">
+        <h2>Registro de Sucursales</h2>
+        <p>Ahora continuaremos con el registro de tu empresa.</p>
+      </div>
+      <div class="grupo">
+        <div class="grupo__titulo">Sucursales registradas · 2</div>
+        <table class="tabla">
+          <thead><tr><th>Nombre</th><th>Dirección</th><th>Ciudad</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><b>Matriz</b></td><td>Av. Vallarta 1234, Int. 5 · Col. Americana</td><td>Guadalajara, Jalisco</td><td><span class="etiqueta etiqueta--principal">Cede</span></td></tr>
+            <tr><td><b>Sucursal Centro</b></td><td>Calle Morelos 87 · Col. Centro</td><td>Guadalajara, Jalisco</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <aside class="asistente__ayuda ayuda">
+      <div class="ayuda__ilustracion">🏬</div>
+      <div>
+        <h3>Salida normal</h3>
+        <p>Este es el camino bueno: el usuario ya capturó lo que quería y cierra el registro.</p>
+      </div>
+    </aside>
+  </div>
+
+  <div class="capa">
+    <div class="modal">
+      <div class="modal__icono modal__icono--aviso">?</div>
+      <h3>¿Estás seguro de querer terminar?</h3>
+      <p>Las sucursales que hayas creado se guardarán.</p>
+      <div class="modal__botones">
+        <a class="btn btn--fantasma" href="#1.4.02">Volver</a>
+        <a class="btn btn--principal" href="#1.5.01">Terminar</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Ojo con la diferencia:</b> este modal <b>guarda</b> (1.4.05) y el otro <b>borra</b> (1.4.06).
+  En el Figma los dos se llamaban igual, “Modal Cancelar”, y por eso se confundían. Ya quedaron separados.
+</p>
+</section>
+<section class="pantalla" data-codigo="1.4.06">
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">4</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="asistente">
+    <div class="asistente__form">
+      <div class="encabezado-paso">
+        <h2>Registro de Sucursales</h2>
+        <p>Ahora continuaremos con el registro de tu empresa.</p>
+      </div>
+      <div class="grupo">
+        <div class="grupo__titulo">Sucursales registradas · 2</div>
+        <table class="tabla">
+          <thead><tr><th>Nombre</th><th>Dirección</th><th>Ciudad</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><b>Matriz</b></td><td>Av. Vallarta 1234, Int. 5 · Col. Americana</td><td>Guadalajara, Jalisco</td><td><span class="etiqueta etiqueta--principal">Cede</span></td></tr>
+            <tr><td><b>Sucursal Centro</b></td><td>Calle Morelos 87 · Col. Centro</td><td>Guadalajara, Jalisco</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <aside class="asistente__ayuda ayuda">
+      <div class="ayuda__ilustracion" style="background:var(--rojo)">⚠</div>
+      <div>
+        <h3>Salida abandonando</h3>
+        <p>El usuario se arrepiente. Se le avisa que va a perder lo capturado antes de dejarlo salir.</p>
+      </div>
+    </aside>
+  </div>
+
+  <div class="capa">
+    <div class="modal">
+      <div class="modal__icono modal__icono--peligro">!</div>
+      <h3>¿Estás seguro de que quieres continuar?</h3>
+      <p>Al cancelar se perderán las sucursales que hayas creado. Podrás volver a crear tus sucursales en otra ocasión.</p>
+      <div class="modal__botones">
+        <a class="btn btn--fantasma" href="#1.4.02">Volver</a>
+        <a class="btn btn--peligro" href="#1.5.01">Cancelar</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Para confirmar:</b> si el usuario cancela aquí, ¿se pierden sólo las sucursales o también la Cede del paso 3?
+  Y después de cancelar, ¿a dónde lo mandamos: al sistema o lo dejamos fuera?
+</p>
+</section>
+<section class="pantalla" data-codigo="1.5.01">
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="final">
+    <div class="final__palomita">✓</div>
+    <h2>¡Listo! Tu empresa ya quedó registrada</h2>
+    <p>Ya puedes empezar a usar INMEDIC. Lo primero que conviene hacer es dar de alta a tus colaboradores y a tus primeros clientes.</p>
+
+    <div class="resumen">
+      <div class="resumen__item">
+        <div class="etiq">Empresa</div>
+        <div class="valor">InMedic MKT</div>
+      </div>
+      <div class="resumen__item">
+        <div class="etiq">Régimen</div>
+        <div class="valor">Persona Moral</div>
+      </div>
+      <div class="resumen__item">
+        <div class="etiq">Sucursales</div>
+        <div class="valor">2 registradas</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+      <a class="btn btn--principal" href="#">Entrar al sistema</a>
+      <a class="btn btn--fantasma" href="#">Dar de alta colaboradores</a>
+      <a class="btn btn--fantasma" href="#">Dar de alta un cliente</a>
+    </div>
+
+    <p style="margin-top:28px;font-size:12px;color:var(--gris-500)">
+      Te enviamos una copia del registro a <b>correo_electronico@ejemplo.com</b>
+    </p>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Esta pantalla no existía en el Figma.</b> La barra de progreso la anunciaba en las 11 pantallas del módulo
+  (“Confirmación / Finalización”) pero nunca se diseñó. Ésta es la propuesta: confirmar que quedó, mostrar el resumen
+  de lo que se capturó, y dar la siguiente acción en lugar de dejar al usuario en el aire.
+  <br><br>
+  <b>Para decidir:</b> ¿los tres botones del final están bien, o el usuario debe entrar directo al sistema sin preguntar?
+</p>
+</section>
+
+<script>
+(function () {
+  "use strict";
+
+  var PANTALLAS = [
+    { cod: "1.1.01", nom: "Log in" },
+    { cod: "1.1.02", nom: "Restablecer contraseña" },
+    { cod: "1.2.01", nom: "Paso 2 · Datos fiscales — Persona Moral" },
+    { cod: "1.2.02", nom: "Paso 2 · Datos fiscales — Persona Física" },
+    { cod: "1.3.01", nom: "Paso 3 · Registro de Cede (sede principal)" },
+    { cod: "1.4.01", nom: "Paso 4 · Sucursales — aún no hay ninguna" },
+    { cod: "1.4.02", nom: "Paso 4 · Sucursales — agregar otra" },
+    { cod: "1.4.03", nom: "Paso 4 · Sucursales — editar una" },
+    { cod: "1.4.04", nom: "Paso 4 · Sucursales — falta un campo" },
+    { cod: "1.4.05", nom: "Paso 4 · Modal \"¿Terminar?\"" },
+    { cod: "1.4.06", nom: "Paso 4 · Modal \"¿Cancelar?\"" },
+    { cod: "1.5.01", nom: "Paso 5 · Finalización" }
+  ];
+
+  var barra = document.getElementById("barra");
+  var secciones = Array.prototype.slice.call(document.querySelectorAll(".pantalla"));
+
+  function indiceDe(cod) {
+    for (var i = 0; i < PANTALLAS.length; i++) {
+      if (PANTALLAS[i].cod === cod) return i;
+    }
+    return -1;
+  }
+
+  function pintarBarra(i) {
+    var actual = PANTALLAS[i];
+    var previa = PANTALLAS[i - 1];
+    var sig = PANTALLAS[i + 1];
+    barra.hidden = false;
+    barra.className = "barra";
+    barra.innerHTML =
+      '<a class="barra__marca" href="#indice">INMEDIC &middot; prototipo</a>' +
+      '<span class="barra__codigo">' + actual.cod + "</span>" +
+      '<span class="barra__titulo">' + actual.nom + "</span>" +
+      '<span class="barra__paso">' + (i + 1) + " de " + PANTALLAS.length + "</span>" +
+      '<nav class="barra__nav">' +
+        '<a class="barra__btn" ' + (previa ? 'href="#' + previa.cod + '"' : 'aria-disabled="true"') + ">&larr; Anterior</a>" +
+        '<a class="barra__btn" ' + (sig ? 'href="#' + sig.cod + '"' : 'aria-disabled="true"') + ">Siguiente &rarr;</a>" +
+        '<a class="barra__btn" href="#indice">Índice</a>' +
+      "</nav>";
+  }
+
+  function mostrar(cod) {
+    var i = indiceDe(cod);
+    var destino = i === -1 ? "indice" : cod;
+
+    for (var s = 0; s < secciones.length; s++) {
+      secciones[s].hidden = secciones[s].getAttribute("data-codigo") !== destino;
+    }
+
+    if (i === -1) {
+      barra.hidden = true;
+      barra.innerHTML = "";
+    } else {
+      pintarBarra(i);
+    }
+
+    window.scrollTo(0, 0);
+  }
+
+  function actual() {
+    return (location.hash || "#indice").slice(1);
+  }
+
+  window.addEventListener("hashchange", function () { mostrar(actual()); });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.target && e.target.matches && e.target.matches("input, select, textarea")) return;
+    var i = indiceDe(actual());
+    if (i === -1) return;
+    if (e.key === "ArrowLeft" && PANTALLAS[i - 1]) location.hash = "#" + PANTALLAS[i - 1].cod;
+    if (e.key === "ArrowRight" && PANTALLAS[i + 1]) location.hash = "#" + PANTALLAS[i + 1].cod;
+  });
+
+  // Los campos son de muestra: no guardan nada ni recargan la página.
+  document.addEventListener("submit", function (e) { e.preventDefault(); });
+
+  mostrar(actual());
+})();
+</script>

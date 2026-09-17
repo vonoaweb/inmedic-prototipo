@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.5.01 · Finalización — INMEDIC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/estilos.css">
+</head>
+<body data-codigo="1.5.01">
+
+<div id="barra"></div>
+
+<div class="lienzo">
+
+  <header class="progreso">
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Log In</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Empresa</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Registro de Cede</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-hecho"><span class="progreso__bolita">✓</span><span class="progreso__texto">Sucursales</span></div>
+    <div class="progreso__linea"></div>
+    <div class="progreso__paso es-actual"><span class="progreso__bolita">5</span><span class="progreso__texto">Finalización</span></div>
+  </header>
+
+  <div class="final">
+    <div class="final__palomita">✓</div>
+    <h2>¡Listo! Tu empresa ya quedó registrada</h2>
+    <p>Ya puedes empezar a usar INMEDIC. Lo primero que conviene hacer es dar de alta a tus colaboradores y a tus primeros clientes.</p>
+
+    <div class="resumen">
+      <div class="resumen__item">
+        <div class="etiq">Empresa</div>
+        <div class="valor">InMedic MKT</div>
+      </div>
+      <div class="resumen__item">
+        <div class="etiq">Régimen</div>
+        <div class="valor">Persona Moral</div>
+      </div>
+      <div class="resumen__item">
+        <div class="etiq">Sucursales</div>
+        <div class="valor">2 registradas</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+      <a class="btn btn--principal" href="#">Entrar al sistema</a>
+      <a class="btn btn--fantasma" href="#">Dar de alta colaboradores</a>
+      <a class="btn btn--fantasma" href="#">Dar de alta un cliente</a>
+    </div>
+
+    <p style="margin-top:28px;font-size:12px;color:var(--gris-500)">
+      Te enviamos una copia del registro a <b>correo_electronico@ejemplo.com</b>
+    </p>
+  </div>
+
+</div>
+
+<p class="nota-pantalla">
+  <b>Esta pantalla no existía en el Figma.</b> La barra de progreso la anunciaba en las 11 pantallas del módulo
+  (“Confirmación / Finalización”) pero nunca se diseñó. Ésta es la propuesta: confirmar que quedó, mostrar el resumen
+  de lo que se capturó, y dar la siguiente acción en lugar de dejar al usuario en el aire.
+  <br><br>
+  <b>Para decidir:</b> ¿los tres botones del final están bien, o el usuario debe entrar directo al sistema sin preguntar?
+</p>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>
